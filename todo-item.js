@@ -195,7 +195,6 @@ getColorForDays(days, fresh=7,overripe=15,rotten=31){
         red = 55
         green =55
     }
-    console.log(days,`rgb(${red}, ${green}, ${blue})`)
     return [`rgb(${red}, ${green}, ${blue})`,colortext]
 }
 milisegundosAFecha(milisegundos) {

@@ -70,7 +70,6 @@ class todoMasterChief extends HTMLElement {
     readLocalStorage(container) {
         const todos = JSON.parse(localStorage.getItem('todos')) || {};
         const todosArray = Object.keys(todos).map(key => ({ id: key, ...todos[key] }));
-        console.log(todosArray)
         todosArray.sort((a, b) => a.order - b.order);
         todosArray.forEach(todo => {
             this.drawTask(todo.id, todo.text, todo.finished, todo.order, todo.createdAt, container);
@@ -126,7 +125,6 @@ class todoMasterChief extends HTMLElement {
     }
     clickUpbt = (divMove) => {
         const divPrev = divMove.previousElementSibling;
-        console.log
         if (!divPrev) return;
         divMove.parentNode.insertBefore(divMove, divPrev);
         this.swaporder(divMove.id,divPrev.id)
@@ -139,12 +137,10 @@ class todoMasterChief extends HTMLElement {
     };
     swaporder(id1, id2){
         const newTodo = JSON.parse(localStorage.getItem('todos')) || {}
-        console.log(newTodo[id1].order,newTodo[id2].order)
         const order1 =newTodo[id1].order
         const order2 =newTodo[id2].order
         newTodo[id1].order =order2
         newTodo[id2].order =order1
-        console.log(newTodo[id1].order,newTodo[id2].order)
         localStorage.setItem('todos', JSON.stringify(newTodo));
 
 
