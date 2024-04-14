@@ -137,7 +137,7 @@ class ToDoItem extends HTMLElement {
         });
         text.addEventListener('keyup', () => {
             this.taskText = text.textContent;
-            this.updateItem(this.idValue, text.textContent, input.checked);
+            this.updateItem(this.idValue, text.textContent, input.checked,this.order,this.createdAt);
         });
         this.setColor(this.createdAt)
         if (!this.shadowRoot.querySelector('.task-wrapper')) {

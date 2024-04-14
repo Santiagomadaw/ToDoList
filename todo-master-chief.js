@@ -53,18 +53,11 @@ class todoMasterChief extends HTMLElement {
         const input = template.querySelector('#add-todo');
         const continer = template.querySelector('#tasks-continer');
         input.addEventListener('send-action', (event) => {
-            for (let i =0; i<=731; i++ ){
-                const date = Date.now()-(i*24*60*60*1000)
-                const id = this.generarUUID()
-                this.maxiorder++
-                this.drawTask(id, `${i} dias`, false,this.maxiorder, date, continer);
-            this.saveData(id, event.detail, false, this.maxiorder, date)
-            }
-           /*  const date = Date.now();
-            
+            const date = Date.now();
+            const id = this.generarUUID()
             this.maxiorder++
             this.drawTask(id, event.detail, false,this.maxiorder, date, continer);
-            this.saveData(id, event.detail, false, this.maxiorder, date); */
+            this.saveData(id, event.detail, false, this.maxiorder, date);
 
         });
         
