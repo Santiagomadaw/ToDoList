@@ -24,6 +24,7 @@ templateElement.innerHTML = `
 <style>
 :host {
     --colortask: lightblue;
+    --colorp: black;
 }
 
     h3 {
@@ -77,6 +78,7 @@ templateElement.innerHTML = `
         text-align: right;
         padding: 1px 12px;
         font-size: small;
+        color: var(--colorp);
 
     }
 </style>
@@ -172,89 +174,29 @@ class ToDoItem extends HTMLElement {
         
         const segundosEnUnaSemana =  24 * 60 * 60 * 1000;
         const days = Math.floor((Date.now()-date) / segundosEnUnaSemana);
-        const color=this.getColorForDays3(days)
-        this.style.setProperty('--colortask', color);
+        const [divColor,colorp] = this.getColorForDays(days)
+        this.style.setProperty('--colortask', divColor);
+        this.style.setProperty('--colorp', colorp);
     }
     
 
-    getColorForDays(days) {
-    if (days < 1) {
-        return 'lightgreen'; 
-    } else if (days <= 1) {
-        return `rgb(155, 244, 144)`;
-    } else if (days <= 2) {
-        return `rgb(175, 244, 144)`;
-    } else if (days <= 3) {
-        return `rgb(185, 244, 144)`;
-    } else if (days <= 4) {
-        return `rgb(195, 244, 144)`;
-    } else if (days <= 5) {
-        return `rgb(205, 244, 144)`;
-    } else if (days <= 6) {
-        return `rgb(235, 244, 144)`;
-    } else if (days <= 7) {
-        return `rgb(255, 244, 144)`;
-    } else if (days <= 14) {
-        return `rgb(255, 234, 144)`;
-    } else if (days <= 21) {
-        return `rgb(255, 214, 144)`;
-    } else if (days <= 28) {
-        return `rgb(255, 194, 144)`;
-    } else if (days <= 60) {
-        return `rgb(255, 174, 144)`;
-    } else if (days <= 90) {
-        return `rgb(255, 154, 144)`;
-    } else if (days <= 120) {
-        return `rgb(255, 144, 144)`;
-    } else if (days <= 365) {
-        return `rgb(97, 1, 1)`;
-    } else {
-        return 'rgb(51, 15, 15)';
-    }
-}
-getColorForDays2(days) {
-    const colorByDays=  {   0:'rgb(135, 244, 144)',
-                            1:'rgb(155, 244, 144)',
-                            2:'rgb(175, 244, 144)',
-                            3:'rgb(185, 244, 144)',
-                            4:'rgb(195, 244, 144)',
-                            5:'rgb(205, 244, 144)',
-                            6:'rgb(235, 244, 144)',
-                            7:'rgb(255, 244, 144)',
-                            14:'rgb(255, 244, 144)',
-                            21:'rgb(255, 214, 144)',
-                            28:'rgb(255, 194, 144)',
-                            60:'rgb(255, 174, 144)',
-                            90:'rgb(255, 154, 144)',
-                            120:'rgb(255, 144, 144)',
-                            365:'rgb(97, 1, 1)'
-    }
-    let color='rgb(51, 15, 15)'
-    for (let key in colorByDays){
-        if (days<=parseInt(key)){
-            color=colorByDays[key]
-            return color
-        }    
-    }
-    return color
-    
-}
-getColorForDays3(days){
-    let red = 255, green =255, blue = 25
-    if (days<=7) { 
-        red=parseInt(days*255/7)
-    }else if (days<=365){
-        red = 255
-        green=255 - parseInt(days*255/365)
-    }else if (days<=730){
-        red = 255-parseInt((days-365)*200/365)
-        green=parseInt((days-365)*55/365)
+
+getColorForDays(days, fresh=7,overripe=15,rotten=31){
+    const colortext = (days>=overripe) ? 'white':'black'
+    let red = 255, green =255, blue = 0
+    if (days<=fresh) { 
+        red=parseInt(days*255/fresh)
+    }else if (days<=overripe){
+        green=255 - parseInt((days-fresh)*200/(overripe-fresh))
+    }else if (days<=rotten){
+        red = 255-parseInt((days-overripe)*200/(rotten-overripe))
+        green=parseInt((days-overripe)*55/(rotten-overripe))
     }else{
         red = 55
         green =55
     }
     console.log(days,`rgb(${red}, ${green}, ${blue})`)
-    return `rgb(${red}, ${green}, ${blue})`
+    return [`rgb(${red}, ${green}, ${blue})`,colortext]
 }
 milisegundosAFecha(milisegundos) {
     const fecha = new Date(milisegundos);

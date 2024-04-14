@@ -53,6 +53,7 @@ class todoMasterChief extends HTMLElement {
         const input = template.querySelector('#add-todo');
         const continer = template.querySelector('#tasks-continer');
         input.addEventListener('send-action', (event) => {
+            
             const date = Date.now();
             const id = this.generarUUID()
             this.maxiorder++
