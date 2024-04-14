@@ -172,7 +172,7 @@ class ToDoItem extends HTMLElement {
         
         const segundosEnUnaSemana =  24 * 60 * 60 * 1000;
         const days = Math.floor((Date.now()-date) / segundosEnUnaSemana);
-        const color=this.getColorForDays(days)
+        const color=this.getColorForDays3(days)
         this.style.setProperty('--colortask', color);
     }
     
@@ -212,6 +212,50 @@ class ToDoItem extends HTMLElement {
         return 'rgb(51, 15, 15)';
     }
 }
+getColorForDays2(days) {
+    const colorByDays=  {   0:'rgb(135, 244, 144)',
+                            1:'rgb(155, 244, 144)',
+                            2:'rgb(175, 244, 144)',
+                            3:'rgb(185, 244, 144)',
+                            4:'rgb(195, 244, 144)',
+                            5:'rgb(205, 244, 144)',
+                            6:'rgb(235, 244, 144)',
+                            7:'rgb(255, 244, 144)',
+                            14:'rgb(255, 244, 144)',
+                            21:'rgb(255, 214, 144)',
+                            28:'rgb(255, 194, 144)',
+                            60:'rgb(255, 174, 144)',
+                            90:'rgb(255, 154, 144)',
+                            120:'rgb(255, 144, 144)',
+                            365:'rgb(97, 1, 1)'
+    }
+    let color='rgb(51, 15, 15)'
+    for (let key in colorByDays){
+        if (days<=parseInt(key)){
+            color=colorByDays[key]
+            return color
+        }    
+    }
+    return color
+    
+}
+getColorForDays3(days){
+    let red = 255, green =255, blue = 25
+    if (days<=7) { 
+        red=parseInt(days*255/7)
+    }else if (days<=365){
+        red = 255
+        green=255 - parseInt(days*255/365)
+    }else if (days<=730){
+        red = 255-parseInt((days-365)*200/365)
+        green=parseInt((days-365)*55/365)
+    }else{
+        red = 55
+        green =55
+    }
+    console.log(days,`rgb(${red}, ${green}, ${blue})`)
+    return `rgb(${red}, ${green}, ${blue})`
+}
 milisegundosAFecha(milisegundos) {
     const fecha = new Date(milisegundos);
     const dia = fecha.getDate();
@@ -221,6 +265,5 @@ milisegundosAFecha(milisegundos) {
     const mesFormateado = (mes < 10) ? `0${mes}` : mes;
         return `${diaFormateado}-${mesFormateado}-${año}`;
 }
-
 }
 window.customElements.define("to-do-item", ToDoItem);
